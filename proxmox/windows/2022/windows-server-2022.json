@@ -45,14 +45,14 @@
       "additional_iso_files": [
         {
           "device": "ide3",
-          "iso_url": "./http/Autounattend.iso",
+          "iso_url": "./http/Autounattend_2022.iso",
           "iso_storage_pool": "{{user `iso_storage_pool`}}",
           "iso_checksum": "f5fcbaecdf22b5cba9923706acd1744c",
           "unmount": true
         },
         {
           "device": "sata0",
-          "iso_file": "local:iso/virtio-win-0.1.225.iso",
+          "iso_file": "local:iso/virtio-win.iso",
           "iso_storage_pool": "{{user `iso_storage_pool`}}",
           "iso_checksum": "beeaa455a643b78fcf70c4983fe60e0d",
           "unmount": true
