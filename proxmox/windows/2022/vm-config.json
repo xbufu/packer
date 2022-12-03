@@ -1,0 +1,19 @@
+{
+	"node": "proxmox",
+	"template_name": "windows-server-2022",
+	"template_description": "Windows Server 2022",
+	"template_id": "12022",
+	"sockets": "1",
+	"cores": "1",
+	"memory": "2048",
+	"network": "vmbr1",
+	"network_vlan": "20",
+	"provisioning_machine_ip": "",
+	"vm_pool": "",
+	"disk_storage_pool": "local-lvm",
+	"disk_storage_type": "lvm-thin",
+	"disk_size": "32G",
+	"vga_type": "qxl",
+	"vga_memory": "256",
+	"iso_storage_pool": "local"
+}
