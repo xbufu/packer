@@ -1,0 +1,94 @@
+{
+  "builders": [
+    {
+      "type": "proxmox",
+      "proxmox_url": "https://{{user `proxmox_host`}}:8006/api2/json",
+      "insecure_skip_tls_verify": "{{user `proxmox_skip_tls_verify`}}",
+      "pool": "{{user `vm_pool`}}",
+      "username": "{{ user `proxmox_username` }}",
+      "password": "{{ user `proxmox_password` }}",
+      "vm_name": "{{ user `template_name` }}",
+      "vm_id": "{{ user `template_id` }}",
+      "node": "{{user `node`}}",
+      "sockets": "{{user `sockets`}}",
+      "cores": "{{user `cores`}}",
+      "cpu_type": "kvm64",
+      "memory": "{{user `memory`}}",
+      "os": "win10",
+      "network_adapters": [
+        {
+          "model": "virtio",
+          "bridge": "{{user `network`}}",
+          "vlan_tag": "{{user `network_vlan`}}"
+        }
+      ],
+      "disks": [
+        {
+          "type": "scsi",
+          "disk_size": "{{user `disk_size`}}",
+          "storage_pool": "{{user `disk_storage_pool`}}",
+          "storage_pool_type": "{{user `disk_storage_type`}}",
+          "cache_mode": "writeback",
+          "format": "raw"
+        }
+      ],
+      "vga": {
+        "type": "{{user `vga_type`}}",
+        "memory": "{{user `vga_memory`}}"
+      },
+      "scsi_controller": "virtio-scsi-pci",
+      "iso_file": "local:iso/Windows_Server_2016_Datacenter_EVAL_en-us_14393_refresh.ISO",
+      "iso_storage_pool": "{{user `iso_storage_pool`}}",
+      "iso_checksum": "70721288BBCDFE3239D8F8C0FAE55F1F",
+      "boot_wait": "2m",
+      "boot": "order=scsi0;ide2",
+      "additional_iso_files": [
+        {
+          "device": "ide3",
+          "iso_url": "./http/Autounattend.iso",
+          "iso_storage_pool": "{{user `iso_storage_pool`}}",
+          "iso_checksum": "8FEA7B39E99373AB0A859E71E96DD7B1",
+          "unmount": true
+        },
+        {
+          "device": "sata0",
+          "iso_file": "local:iso/virtio-win-0.1.225.iso",
+          "iso_storage_pool": "{{user `iso_storage_pool`}}",
+          "iso_checksum": "beeaa455a643b78fcf70c4983fe60e0d",
+          "unmount": true
+        }
+      ],
+      "communicator": "winrm",
+      "winrm_username": "Administrator",
+      "winrm_password": "Password!",
+      "winrm_timeout": "4h",
+      "qemu_agent": true,
+      "unmount_iso": true,
+      "template_name": "{{ user `template_name` }}",
+      "template_description": "{{ user `template_description` }}"
+    }
+  ],
+  "provisioners": [       
+    {
+      "type": "powershell",
+      "scripts": [
+        "{{template_dir}}/../scripts/Install-SSH.ps1"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    },
+    {
+      "type": "powershell",
+      "scripts": [
+        "{{template_dir}}/../scripts/Install-SSH.ps1",
+        "{{template_dir}}/../scripts/Set-Powerplan.ps1",
+        "{{template_dir}}/../scripts/Enable-RDP.ps1",
+        "{{template_dir}}/../scripts/ConfigureRemotingForAnsible.ps1"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    }
+  ]
+}
