@@ -17,11 +17,11 @@ By default, the template will:
 ### Validate the config
 
 ```
-packer validate -var-file ..\..\credentials.json -var-file .\vm-config.json .\windows-server-2016.json
+packer validate -var-file ..\..\proxmox-credentials.json -var-file .\vm-config.json .\windows-server-2016.json
 ```
 
 ### Create the template
 
 ```
-packer build -var-file ..\..\credentials.json -var-file .\vm-config.json .\windows-server-2016.json
+packer build -var-file ..\..\proxmox-credentials.json -var-file .\vm-config.json .\windows-server-2016.json
  ```

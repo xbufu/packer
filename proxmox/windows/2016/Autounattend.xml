@@ -85,7 +85,7 @@
                         </ModifyPartition>
                         <ModifyPartition wcm:action="add">
                             <Format>NTFS</Format>
-                            <Label>Windows 2016</Label>
+                            <Label>Windows</Label>
                             <Letter>C</Letter>
                             <Order>2</Order>
                             <PartitionID>2</PartitionID>
@@ -317,7 +317,7 @@
             <OEMInformation>
                 <HelpCustomized>false</HelpCustomized>
             </OEMInformation>
-            <ComputerName>winsrv2016</ComputerName>
+            <ComputerName>winsrv-2016</ComputerName>
             <TimeZone>W. Europe Standard Time</TimeZone>
             <RegisteredOwner />
         </component>

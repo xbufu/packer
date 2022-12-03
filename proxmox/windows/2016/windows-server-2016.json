@@ -37,9 +37,9 @@
         "memory": "{{user `vga_memory`}}"
       },
       "scsi_controller": "virtio-scsi-pci",
-      "iso_file": "local:iso/Windows_Server_2016_Datacenter_EVAL_en-us_14393_refresh.ISO",
+      "iso_file": "local:iso/WinServer2016_Eval_English_x64.iso",
       "iso_storage_pool": "{{user `iso_storage_pool`}}",
-      "iso_checksum": "70721288BBCDFE3239D8F8C0FAE55F1F",
+      "iso_checksum": "e035cab5aa5624d0f56cf879ff0caac4",
       "boot_wait": "2m",
       "boot": "order=scsi0;ide2",
       "additional_iso_files": [
@@ -47,7 +47,7 @@
           "device": "ide3",
           "iso_url": "./http/Autounattend.iso",
           "iso_storage_pool": "{{user `iso_storage_pool`}}",
-          "iso_checksum": "8FEA7B39E99373AB0A859E71E96DD7B1",
+          "iso_checksum": "e035cab5aa5624d0f56cf879ff0caac4",
           "unmount": true
         },
         {
@@ -69,6 +69,20 @@
     }
   ],
   "provisioners": [       
+    {
+      "type": "file",
+      "source": "{{template_dir}}/../scripts/PinToTaskBar1903.ps1",
+      "destination": "/Users/Administrator/PinToTaskBar1903.ps1"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "powershell.exe -ExecutionPolicy Bypass -File C:\\Users\\Administrator\\PinToTaskBar1903.ps1 \"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" PIN",
+        "powershell.exe -ExecutionPolicy Bypass -File C:\\Users\\Administrator\\PinToTaskBar1903.ps1 \"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell_ise.exe\" PIN",
+        "powershell.exe -ExecutionPolicy Bypass -File C:\\Users\\Administrator\\PinToTaskBar1903.ps1 \"C:\\Windows\\System32\\cmd.exe\" PIN",
+        "Remove-Item C:\\Users\\Administrator\\PinToTaskBar1903.ps1 -Force"
+      ]
+    },
     {
       "type": "powershell",
       "scripts": [
