@@ -1,0 +1,108 @@
+{
+  "builders": [
+    {
+      "type": "proxmox",
+      "proxmox_url": "https://{{user `proxmox_host`}}:8006/api2/json",
+      "insecure_skip_tls_verify": "{{user `proxmox_skip_tls_verify`}}",
+      "pool": "{{user `vm_pool`}}",
+      "username": "{{ user `proxmox_username` }}",
+      "password": "{{ user `proxmox_password` }}",
+      "vm_name": "{{ user `template_name` }}",
+      "vm_id": "{{ user `template_id` }}",
+      "node": "{{user `node`}}",
+      "sockets": "{{user `sockets`}}",
+      "cores": "{{user `cores`}}",
+      "cpu_type": "kvm64",
+      "memory": "{{user `memory`}}",
+      "os": "win11",
+      "network_adapters": [
+        {
+          "model": "virtio",
+          "bridge": "{{user `network`}}",
+          "vlan_tag": "{{user `network_vlan`}}"
+        }
+      ],
+      "disks": [
+        {
+          "type": "scsi",
+          "disk_size": "{{user `disk_size`}}",
+          "storage_pool": "{{user `disk_storage_pool`}}",
+          "storage_pool_type": "{{user `disk_storage_type`}}",
+          "cache_mode": "writeback",
+          "format": "raw"
+        }
+      ],
+      "vga": {
+        "type": "{{user `vga_type`}}",
+        "memory": "{{user `vga_memory`}}"
+      },
+      "scsi_controller": "virtio-scsi-pci",
+      "iso_file": "local:iso/Win11_22H2_Enterprise_Eval_English_x64.iso",
+      "iso_storage_pool": "{{user `iso_storage_pool`}}",
+      "iso_checksum": "06d32714e332d506e3c565bc08204cab",
+      "boot_wait": "2m",
+      "boot": "order=scsi0;ide2",
+      "additional_iso_files": [
+        {
+          "device": "ide3",
+          "iso_url": "./http/Autounattend_11.iso",
+          "iso_storage_pool": "{{user `iso_storage_pool`}}",
+          "iso_checksum": "c8d1e520177d50c8cc7b1f0cc20ff1f5",
+          "unmount": true
+        },
+        {
+          "device": "sata0",
+          "iso_file": "local:iso/virtio-win.iso",
+          "iso_storage_pool": "{{user `iso_storage_pool`}}",
+          "iso_checksum": "beeaa455a643b78fcf70c4983fe60e0d",
+          "unmount": true
+        }
+      ],
+      "communicator": "winrm",
+      "winrm_username": "Administrator",
+      "winrm_password": "Password!",
+      "winrm_timeout": "4h",
+      "qemu_agent": true,
+      "unmount_iso": true,
+      "template_name": "{{ user `template_name` }}",
+      "template_description": "{{ user `template_description` }}"
+    }
+  ],
+  "provisioners": [       
+    {
+      "type": "file",
+      "source": "{{template_dir}}/../scripts/PinToTaskBar1903.ps1",
+      "destination": "/Users/Administrator/PinToTaskBar1903.ps1"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "powershell.exe -ExecutionPolicy Bypass -File C:\\Users\\Administrator\\PinToTaskBar1903.ps1 \"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" PIN",
+        "powershell.exe -ExecutionPolicy Bypass -File C:\\Users\\Administrator\\PinToTaskBar1903.ps1 \"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell_ise.exe\" PIN",
+        "powershell.exe -ExecutionPolicy Bypass -File C:\\Users\\Administrator\\PinToTaskBar1903.ps1 \"C:\\Windows\\System32\\cmd.exe\" PIN",
+        "Remove-Item C:\\Users\\Administrator\\PinToTaskBar1903.ps1 -Force"
+      ]
+    },
+    {
+      "type": "powershell",
+      "scripts": [
+        "{{template_dir}}/../scripts/Install-SSH.ps1"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    },
+    {
+      "type": "powershell",
+      "scripts": [
+        "{{template_dir}}/../scripts/Install-SSH.ps1",
+        "{{template_dir}}/../scripts/Set-Powerplan.ps1",
+        "{{template_dir}}/../scripts/Enable-RDP.ps1",
+        "{{template_dir}}/../scripts/ConfigureRemotingForAnsible.ps1"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    }
+  ]
+}
