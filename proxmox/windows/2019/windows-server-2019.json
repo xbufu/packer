@@ -47,7 +47,7 @@
           "device": "ide3",
           "iso_url": "./http/Autounattend_2019.iso",
           "iso_storage_pool": "{{user `iso_storage_pool`}}",
-          "iso_checksum": "b9d6475e26d9f58dbab8aedfd5f7bea8",
+          "iso_checksum": "6b5f977f08286b8b7d1101d8abd9a806",
           "unmount": true
         },
         {
@@ -68,7 +68,7 @@
       "template_description": "{{ user `template_description` }}"
     }
   ],
-  "provisioners": [       
+  "provisioners": [
     {
       "type": "file",
       "source": "{{template_dir}}/../scripts/PinToTaskBar1903.ps1",
@@ -96,9 +96,11 @@
       "type": "powershell",
       "scripts": [
         "{{template_dir}}/../scripts/Install-SSH.ps1",
-        "{{template_dir}}/../scripts/Set-Powerplan.ps1",
+        "{{template_dir}}/../scripts/ConfigureRemotingForAnsible.ps1",
         "{{template_dir}}/../scripts/Enable-RDP.ps1",
-        "{{template_dir}}/../scripts/ConfigureRemotingForAnsible.ps1"
+        "{{template_dir}}/../scripts/Set-Powerplan.ps1",
+        "{{template_dir}}/../scripts/Apply-GeneralFixes.ps1",
+        "{{template_dir}}/../scripts/Debloat-WindowsServer.ps1"
       ]
     },
     {
