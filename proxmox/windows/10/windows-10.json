@@ -12,7 +12,7 @@
       "node": "{{user `node`}}",
       "sockets": "{{user `sockets`}}",
       "cores": "{{user `cores`}}",
-      "cpu_type": "kvm64",
+      "cpu_type": "{{user `cpu_type`}}",
       "memory": "{{user `memory`}}",
       "os": "win10",
       "network_adapters": [
@@ -47,7 +47,7 @@
           "device": "ide3",
           "iso_url": "./http/Autounattend_10.iso",
           "iso_storage_pool": "{{user `iso_storage_pool`}}",
-          "iso_checksum": "8be407710d32466abddcbc5ce25967b2",
+          "iso_checksum": "7b851bdb008d7cc429794980ba0cf69c",
           "unmount": true
         },
         {
@@ -96,9 +96,26 @@
       "type": "powershell",
       "scripts": [
         "{{template_dir}}/../scripts/Install-SSH.ps1",
-        "{{template_dir}}/../scripts/Set-Powerplan.ps1",
+        "{{template_dir}}/../scripts/ConfigureRemotingForAnsible.ps1",
         "{{template_dir}}/../scripts/Enable-RDP.ps1",
-        "{{template_dir}}/../scripts/ConfigureRemotingForAnsible.ps1"
+        "{{template_dir}}/../scripts/Set-Powerplan.ps1",
+        "{{template_dir}}/../scripts/Apply-GeneralFixes.ps1"
+      ]
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "Invoke-WebRequest -URi https://raw.githubusercontent.com/Sycnex/Windows10Debloater/master/Windows10SysPrepDebloater.ps1 -OutFile $env:TEMP\\Windows10SysPrepDebloater.ps1",
+        "& $env:TEMP\\Windows10SysPrepDebloater.ps1 -Sysprep -Debloat -Privacy"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    },
+    {
+      "type": "powershell",
+      "scripts": [
+        "{{template_dir}}/../scripts/Debloat-Windows10.ps1"
       ]
     },
     {

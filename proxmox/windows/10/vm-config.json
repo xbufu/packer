@@ -1,11 +1,12 @@
 {
 	"node": "proxmox",
-	"template_name": "windows-10-22h2-enterprise",
-	"template_description": "Windows 10 22H2 Enterprise",
-	"template_id": "11022",
+	"template_name": "windows-10",
+	"template_description": "Windows 10",
+	"template_id": "1000",
 	"sockets": "1",
-	"cores": "1",
-	"memory": "2048",
+	"cores": "2",
+	"cpu_type": "kvm64",
+	"memory": "4096",
 	"network": "vmbr1",
 	"network_vlan": "20",
 	"provisioning_machine_ip": "",
@@ -13,7 +14,7 @@
 	"disk_storage_pool": "local-lvm",
 	"disk_storage_type": "lvm-thin",
 	"disk_size": "32G",
-	"vga_type": "qxl",
+	"vga_type": "std",
 	"vga_memory": "256",
 	"iso_storage_pool": "local"
 }

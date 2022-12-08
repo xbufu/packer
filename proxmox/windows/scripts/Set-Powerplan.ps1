@@ -14,6 +14,11 @@ Try {
 
   if ($CurrPlan -ne $HighPerf) {powercfg -setactive $HighPerf}
 
+  # Disable screensaver
+  Set-ItemProperty "HKCU:\Control Panel\Desktop" -Name ScreenSaveActive -Value 0 -Type DWord
+  powercfg -x -monitor-timeout-ac 0
+  powercfg -x -monitor-timeout-dc 0
+
 } Catch {
   Write-Warning -Message "Unable to set power plan to high performance"
   Write-Warning $Error[0]

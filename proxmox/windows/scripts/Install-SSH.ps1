@@ -1,4 +1,4 @@
-if(! (Test-Path -Path "$env:PROFILE\.installed_openssh")) {
+if(! (Test-Path -Path "$env:PROFILE\.installed_ssh")) {
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     
     $repo = "PowerShell/Win32-OpenSSH"

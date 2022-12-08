@@ -1,8 +1,6 @@
-# Replaces "slmgr.vbs /rearm"
-# https://powershell.org/forums/topic/run-command-quietly-start-process/
-# https://msdn.microsoft.com/en-us/library/ee957713(v=vs.85).aspx
-
-Write-Host "Resetting the Windows evaluation timer"
-
-$x = Get-WmiObject SoftwarelicensingService
-$x.ReArmWindows()
+# Automatically rearm Windows Evaluation
+$action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "(Get-WmiObject SoftwarelicensingService).ReArmWindows()"
+$trigger = New-ScheduledTaskTrigger -Daily -At "12:00 PM"
+$principal = New-ScheduledTaskPrincipal -UserId "NT AUTHORITY\SYSTEM" -LogonType ServiceAccount -RunLevel Highest
+$settings = New-ScheduledTaskSettingsSet
+Register-ScheduledTask -Action $action -Trigger $trigger -Principal $principal -Settings $settings -TaskName "Rearm Windows" -Description "Rearm Windows"
