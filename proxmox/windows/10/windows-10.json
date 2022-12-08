@@ -47,7 +47,7 @@
           "device": "ide3",
           "iso_url": "./http/Autounattend_10.iso",
           "iso_storage_pool": "{{user `iso_storage_pool`}}",
-          "iso_checksum": "7b851bdb008d7cc429794980ba0cf69c",
+          "iso_checksum": "d987a67cb8d9038a3108b52d4701fbfc",
           "unmount": true
         },
         {
@@ -99,8 +99,7 @@
         "{{template_dir}}/../scripts/ConfigureRemotingForAnsible.ps1",
         "{{template_dir}}/../scripts/Enable-RDP.ps1",
         "{{template_dir}}/../scripts/Set-Powerplan.ps1",
-        "{{template_dir}}/../scripts/Apply-GeneralFixes.ps1",
-        "{{template_dir}}/../scripts/Debloat-WindowsServer.ps1"
+        "{{template_dir}}/../scripts/Apply-GeneralFixes.ps1"
       ]
     },
     {
