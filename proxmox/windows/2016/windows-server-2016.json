@@ -47,7 +47,7 @@
           "device": "ide3",
           "iso_url": "./http/Autounattend_2016.iso",
           "iso_storage_pool": "{{user `iso_storage_pool`}}",
-          "iso_checksum": "e035cab5aa5624d0f56cf879ff0caac4",
+          "iso_checksum": "e0d5010d9481487e16cb8ae55b311856",
           "unmount": true
         },
         {
@@ -96,9 +96,10 @@
       "type": "powershell",
       "scripts": [
         "{{template_dir}}/../scripts/Install-SSH.ps1",
-        "{{template_dir}}/../scripts/Set-Powerplan.ps1",
+        "{{template_dir}}/../scripts/ConfigureRemotingForAnsible.ps1",
         "{{template_dir}}/../scripts/Enable-RDP.ps1",
-        "{{template_dir}}/../scripts/ConfigureRemotingForAnsible.ps1"
+        "{{template_dir}}/../scripts/Set-Powerplan.ps1",
+        "{{template_dir}}/../scripts/Apply-GeneralFixes.ps1"
       ]
     },
     {

@@ -2,51 +2,45 @@
 <unattend xmlns="urn:schemas-microsoft-com:unattend">
     <settings pass="windowsPE">
         <component name="Microsoft-Windows-PnpCustomizationsWinPE" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="amd64" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
-            <!--
-                 This makes the VirtIO drivers available to Windows, assuming that
-                 the VirtIO driver disk at https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
-                 (see https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html#virtio-win-direct-downloads)
-                 is available as drive E:
-            -->
             <DriverPaths>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="2">
-                    <Path>F:\viostor\w11\amd64</Path>
+                    <Path>F:\viostor\2k16\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="3">
-                    <Path>F:\NetKVM\w11\amd64</Path>
+                    <Path>F:\NetKVM\2k16\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="4">
-                    <Path>F:\Balloon\w11\amd64</Path>
+                    <Path>F:\Balloon\2k16\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="5">
-                    <Path>F:\pvpanic\w11\amd64</Path>
+                    <Path>F:\pvpanic\2k16\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="6">
-                    <Path>F:\qemupciserial\w11\amd64</Path>
+                    <Path>F:\qemupciserial\2k16\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="7">
-                    <Path>F:\qxldod\w11\amd64</Path>
+                    <Path>F:\qxldod\2k16\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="8">
-                    <Path>F:\vioinput\w11\amd64</Path>
+                    <Path>F:\vioinput\2k16\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="9">
-                    <Path>F:\viorng\w11\amd64</Path>
+                    <Path>F:\viorng\2k16\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="10">
-                    <Path>F:\vioscsi\w11\amd64</Path>
+                    <Path>F:\vioscsi\2k16\amd64</Path>
                 </PathAndCredentials>
 
                 <PathAndCredentials wcm:action="add" wcm:keyValue="11">
-                    <Path>F:\vioserial\w11\amd64</Path>
+                    <Path>F:\vioserial\2k16\amd64</Path>
                 </PathAndCredentials>
             </DriverPaths>
         </component>
@@ -61,28 +55,6 @@
             <UserLocale>en-US</UserLocale>
         </component>
         <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <RunSynchronous>
-                <RunSynchronousCommand wcm:action="add">
-                    <Order>1</Order>
-                    <Path>reg add HKLM\System\Setup\LabConfig /v BypassTPMCheck /t reg_dword /d 0x00000001 /f</Path>
-                </RunSynchronousCommand>
-                <RunSynchronousCommand wcm:action="add">
-                    <Order>2</Order>
-                    <Path>reg add HKLM\System\Setup\LabConfig /v BypassSecureBootCheck /t reg_dword /d 0x00000001 /f</Path>
-                </RunSynchronousCommand>
-                <RunSynchronousCommand wcm:action="add">
-                    <Order>3</Order>
-                    <Path>reg add HKLM\System\Setup\LabConfig /v BypassRAMCheck /t reg_dword /d 0x00000001 /f</Path>
-                </RunSynchronousCommand>
-                <RunSynchronousCommand wcm:action="add">
-                    <Order>5</Order>
-                    <Path>reg add HKLM\System\Setup\LabConfig /v BypassCPUCheck /t reg_dword /d 0x00000001 /f</Path>
-                </RunSynchronousCommand>
-                <RunSynchronousCommand wcm:action="add">
-                    <Order>4</Order>
-                    <Path>reg add HKLM\System\Setup\LabConfig /v BypassStorageCheck /t reg_dword /d 0x00000001 /f</Path>
-                </RunSynchronousCommand>
-            </RunSynchronous>
             <DiskConfiguration>
                 <Disk wcm:action="add">
                     <CreatePartitions>
@@ -122,7 +94,7 @@
                     <InstallFrom>
                         <MetaData wcm:action="add">
                             <Key>/IMAGE/NAME</Key>
-                            <Value>Windows 11 Enterprise Evaluation</Value>
+                            <Value>Windows Server 2016 SERVERDATACENTER</Value>
                         </MetaData>
                     </InstallFrom>
                     <InstallTo>
@@ -198,138 +170,25 @@
                     <RequiresUserInput>true</RequiresUserInput>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c winrm quickconfig -q</CommandLine>
-                    <Description>winrm quickconfig -q</Description>
-                    <Order>3</Order>
-                    <RequiresUserInput>true</RequiresUserInput>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c winrm quickconfig -transport:http</CommandLine>
-                    <Description>winrm quickconfig -transport:http</Description>
+                    <CommandLine>powershell -NoProfile -ExecutionPolicy Bypass -Command "E:\Fix-PublicNetwork.ps1"</CommandLine>
+                    <Description>Fix public network</Description>
                     <Order>4</Order>
                     <RequiresUserInput>true</RequiresUserInput>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c winrm set winrm/config @{MaxTimeoutms="1800000"}</CommandLine>
-                    <Description>Win RM MaxTimoutms</Description>
-                    <Order>5</Order>
-                    <RequiresUserInput>true</RequiresUserInput>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c winrm set winrm/config/winrs @{MaxMemoryPerShellMB="800"}</CommandLine>
-                    <Description>Win RM MaxMemoryPerShellMB</Description>
-                    <Order>6</Order>
-                    <RequiresUserInput>true</RequiresUserInput>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c winrm set winrm/config/service @{AllowUnencrypted="true"}</CommandLine>
-                    <Description>Win RM AllowUnencrypted</Description>
-                    <Order>7</Order>
-                    <RequiresUserInput>true</RequiresUserInput>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c winrm set winrm/config/service/auth @{Basic="true"}</CommandLine>
-                    <Description>Win RM auth Basic</Description>
-                    <Order>8</Order>
-                    <RequiresUserInput>true</RequiresUserInput>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c winrm set winrm/config/client/auth @{Basic="true"}</CommandLine>
-                    <Description>Win RM client auth Basic</Description>
-                    <Order>9</Order>
-                    <RequiresUserInput>true</RequiresUserInput>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c winrm set winrm/config/listener?Address=*+Transport=HTTP @{Port="5985"} </CommandLine>
-                    <Description>Win RM listener Address/Port</Description>
+                    <CommandLine>powershell -NoProfile -ExecutionPolicy Bypass -Command "E:\Enable-WinRM.ps1"</CommandLine>
+                    <Description>Enable WinRM</Description>
                     <Order>10</Order>
-                    <RequiresUserInput>true</RequiresUserInput>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c netsh advfirewall firewall set rule group="remote administration" new enable=yes </CommandLine>
-                    <Description>Win RM adv firewall enable</Description>
-                    <Order>11</Order>
-                    <RequiresUserInput>true</RequiresUserInput>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c netsh firewall add portopening TCP 5985 "Port 5985" </CommandLine>
-                    <Description>Win RM port open</Description>
-                    <Order>12</Order>
-                    <RequiresUserInput>true</RequiresUserInput>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <Order>13</Order>
-                    <CommandLine>cmd.exe /c netsh advfirewall firewall set rule group='Windows Remote Management' new enable=yes</CommandLine>
-                    <RequiresUserInput>true</RequiresUserInput>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c net stop winrm </CommandLine>
-                    <Description>Stop Win RM Service </Description>
-                    <Order>14</Order>
-                    <RequiresUserInput>true</RequiresUserInput>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c sc config winrm start= auto</CommandLine>
-                    <Description>Win RM Autostart</Description>
-                    <Order>15</Order>
-                    <RequiresUserInput>true</RequiresUserInput>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c net start winrm</CommandLine>
-                    <Description>Start Win RM Service</Description>
-                    <Order>16</Order>
-                    <RequiresUserInput>true</RequiresUserInput>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>cmd.exe /c wmic useraccount where "name='Administrator'" set PasswordExpires=FALSE</CommandLine>
-                    <Order>17</Order>
+                    <Order>20</Order>
                     <Description>Disable password expiration for Administrator user</Description>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>cmd.exe /c msiexec /qb /i F:\guest-agent\qemu-ga-x86_64.msi /quiet</CommandLine>
-                    <Order>18</Order>
+                    <Order>30</Order>
                     <Description>Install qemu-guest-agent</Description>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c netsh advfirewall firewall add rule name="ICMP Allow incoming V4 echo request" protocol=icmpv4:8,any dir=in action=allow</CommandLine>
-                    <Order>19</Order>
-                    <Description>Allow ICMP</Description>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c reg add "HKLM\System\CurrentControlSet\Control\Network\NewNetworkWindowOff"</CommandLine>
-                    <Description>Network prompt</Description>
-                    <Order>20</Order>
-                    <RequiresUserInput>true</RequiresUserInput>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>%SystemRoot%\System32\reg.exe ADD HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\ /v HideFileExt /t REG_DWORD /d 0 /f</CommandLine>
-                    <Order>21</Order>
-                    <Description>Show file extensions in Explorer</Description>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>%SystemRoot%\System32\reg.exe ADD HKCU\Console /v QuickEdit /t REG_DWORD /d 1 /f</CommandLine>
-                    <Order>22</Order>
-                    <Description>Enable QuickEdit mode</Description>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>%SystemRoot%\System32\reg.exe ADD HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\ /v Start_ShowRun /t REG_DWORD /d 1 /f</CommandLine>
-                    <Order>23</Order>
-                    <Description>Show Run command in Start Menu</Description>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>%SystemRoot%\System32\reg.exe ADD HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\ /v StartMenuAdminTools /t REG_DWORD /d 1 /f</CommandLine>
-                    <Order>24</Order>
-                    <Description>Show Administrative Tools in Start Menu</Description>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>%SystemRoot%\System32\reg.exe ADD HKLM\SYSTEM\CurrentControlSet\Control\Power\ /v HibernateFileSizePercent /t REG_DWORD /d 0 /f</CommandLine>
-                    <Order>25</Order>
-                    <Description>Zero Hibernation File</Description>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>%SystemRoot%\System32\reg.exe ADD HKLM\SYSTEM\CurrentControlSet\Control\Power\ /v HibernateEnabled /t REG_DWORD /d 0 /f</CommandLine>
-                    <Order>26</Order>
-                    <Description>Disable Hibernation Mode</Description>
                 </SynchronousCommand>
             </FirstLogonCommands>
         </component>
@@ -339,7 +198,7 @@
             <OEMInformation>
                 <HelpCustomized>false</HelpCustomized>
             </OEMInformation>
-            <ComputerName>win-11-22h2-enterprise</ComputerName>
+            <ComputerName>winsrv-2016</ComputerName>
             <TimeZone>W. Europe Standard Time</TimeZone>
             <RegisteredOwner />
         </component>

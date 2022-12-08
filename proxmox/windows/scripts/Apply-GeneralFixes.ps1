@@ -16,6 +16,12 @@ reg.exe ADD HKLM\SYSTEM\CurrentControlSet\Control\Power\ /v HibernateFileSizePer
 # Disable hibernation mode
 reg.exe ADD HKLM\SYSTEM\CurrentControlSet\Control\Power\ /v HibernateEnabled /t REG_DWORD /d 0 /f
 
+# Network prompt
+reg.exe ADD HKLM\System\CurrentControlSet\Control\Network\NewNetworkWindowOff /f
+
+# Allow ping
+cmd.exe /c netsh advfirewall firewall add rule name="ICMP Allow incoming V4 echo request" protocol=icmpv4:8,any dir=in action=allow
+
 # Automatically rearm Windows Evaluation
 $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "(Get-WmiObject SoftwarelicensingService).ReArmWindows()"
 $trigger = New-ScheduledTaskTrigger -Daily -At "12:00 PM"
