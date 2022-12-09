@@ -1,0 +1,41 @@
+#cloud-config
+autoinstall:
+  version: 1
+  locale: en_US.UTF-8
+  keyboard:
+    layout: us
+  identity:
+    hostname: ubuntusrv-focal
+    username: bufu
+    password: $6$ttvt9CDCefKrK$yMVmFVNiqO9LdlNCZeSoMGju8K0irIXdLJp39skvf5wDNkna46JnzU9MiaCdyt9Aau1hqVmHhaqk40GG4.UbB/
+  ssh:
+    install-server: true
+    allow-pw: false
+    disable_root: true
+    ssh_quiet_keygen: true
+    allow_public_ssh_keys: true
+  packages:
+    - qemu-guest-agent
+    - sudo
+    - whois
+    - curl
+    - wget
+    - nano
+    - net-tools
+  storage:
+    layout:
+      name: direct
+    swap:
+      size: 0
+  user-data:
+    package_upgrade: false
+    timezone: Europe/Berlin
+    users:
+      - name: bufu
+        groups: [adm, sudo]
+        lock-passwd: false
+        sudo: ALL=(ALL) NOPASSWD:ALL
+        shell: /bin/bash
+        passwd: $6$ttvt9CDCefKrK$yMVmFVNiqO9LdlNCZeSoMGju8K0irIXdLJp39skvf5wDNkna46JnzU9MiaCdyt9Aau1hqVmHhaqk40GG4.UbB/
+        ssh_authorized_keys:
+          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIQIR1skomUNRz8ezrJrdyefNoE9mL4s0jaoKg0yinuI colin@framework
