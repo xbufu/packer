@@ -71,7 +71,9 @@ additional=$(cat <<EOF
 amass
 binwalk
 bloodhound
+bloodhound.py
 burpsuite
+certipy-ad
 cewl
 crunch
 dnsenum
@@ -102,8 +104,10 @@ nikto
 onesixtyone
 oscanner
 passing-the-hash
+peass
 powershell-empire
 python3-impacket
+python3-ldapdomaindump
 recon-ng
 responder
 samdump2
@@ -127,6 +131,9 @@ wordlists
 wpscan
 EOF
 )
+
+echo "Updating repositories..."
+eval apt update $SILENT
 
 echo "Installing essential packages..."
 eval apt install -y $(echo $essential | tr '\n' ' ') $SILENT
