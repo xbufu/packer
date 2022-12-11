@@ -81,7 +81,9 @@
         "{{ template_dir }}/scripts/rdp.sh",
         "{{ template_dir }}/scripts/vm-tools.sh",
         "{{ template_dir }}/scripts/kali-packages.sh",
-        "{{ template_dir }}/scripts/kali-fixes.sh"
+        "{{ template_dir }}/scripts/kali-fixes.sh",
+        "{{ template_dir }}/scripts/dotfiles.sh",
+        "{{ template_dir }}/scripts/update.sh"
       ],
       "expect_disconnect": true,
       "skip_clean": true

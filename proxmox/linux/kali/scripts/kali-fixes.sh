@@ -1,28 +1,8 @@
 #!/bin/bash
 
 export DEBIAN_FRONTEND=noninteractive
-# export SILENT=">/dev/null 2>&1"
+export SILENT=">/dev/null 2>&1"
 # export SILENT="2>&1"
-
-# Update the system
-echo "Updating the system..."
-eval apt update $SILENT
-eval apt dist-upgrade -y $SILENT
-eval apt autoclean -y $SILENT
-eval apt autoremove -y $SILENT
-
-# Disable login message
-echo "Disabling login message..."
-eval touch /root/.hushlogin $SILENT
-
-# Change shell to bash
-echo "Changing shell to bash and removing zsh..."
-eval chsh -s /bin/bash $SILENT
-eval apt remove -y zsh $SILENT
-
-# Update file database
-echo "Updating locate file database..."
-updatedb
 
 # Fix power settings
 echo "Fixing power settings..."
@@ -58,23 +38,6 @@ then
 else
     sed 's/\[global\]/\[global\]\n   client min protocol = CORE\n   client max protocol = SMB3\n''/' -i /etc/samba/smb.conf
 fi
-
-# Fix Java path
-echo "Fixing Java path..."
-echo -e "\n# Java" >> /root/.bashrc
-echo "export JAVA_HOME=$(update-alternatives --display java | grep currently | cut -d ' ' -f 7 | cut -d '/' -f 1-5)"  >> /root/.bashrc
-echo -e 'export PATH=$PATH:$JAVA_HOME/bin' >> /root/.bashrc
-
-# Fix Go path
-echo "Fixing Go path..."
-if [ ! -d /root/go ]
-then
-    mkdir -p /root/go/{bin,src}
-fi
-
-echo -e "\n# golang" >> /root/.bashrc
-echo 'export GOPATH=$HOME/go' >> /root/.bashrc
-echo 'export PATH=$PATH:$GOPATH/bin' >> /root/.bashrc
 
 # Enable postgresql
 echo "Enabling postgresql..."

@@ -40,6 +40,7 @@ mlocate
 nano
 nasm
 nmap
+neovim
 openssl
 proxychains
 python2
