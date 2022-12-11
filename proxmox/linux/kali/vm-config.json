@@ -1,0 +1,19 @@
+{
+	"node": "proxmox",
+	"template_name": "kali-2022.4",
+	"template_description": "Kali 2022.4",
+	"template_id": "902",
+	"sockets": "1",
+	"cores": "2",
+	"memory": "4096",
+	"network": "vmbr1",
+	"network_vlan": "20",
+	"provisioning_machine_ip": "",
+	"vm_pool": "",
+	"disk_storage_pool": "local-lvm",
+	"disk_storage_type": "lvm-thin",
+	"disk_size": "24G",
+	"vga_type": "std",
+	"vga_memory": "256",
+	"iso_storage_pool": "local"
+}
