@@ -82,6 +82,7 @@
         "{{ template_dir }}/scripts/vm-tools.sh",
         "{{ template_dir }}/scripts/kali-packages.sh",
         "{{ template_dir }}/scripts/kali-fixes.sh",
+        "{{ template_dir }}/scripts/disable-ipv6.sh",
         "{{ template_dir }}/scripts/dotfiles.sh",
         "{{ template_dir }}/scripts/update.sh"
       ],
