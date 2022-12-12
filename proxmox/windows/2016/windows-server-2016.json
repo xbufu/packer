@@ -106,5 +106,15 @@
     {
       "type": "windows-restart"
     }
+  ],
+  "post-processors": [
+    {
+      "type": "shell-local",
+      "inline": [
+        "ssh -i {{user `proxmox_ssh_key`}} {{user `proxmox_ssh_user`}}@{{user `proxmox_host`}} qm set {{user `template_id`}} --delete ide2",
+        "ssh -i {{user `proxmox_ssh_key`}} {{user `proxmox_ssh_user`}}@{{user `proxmox_host`}} qm set {{user `template_id`}} --delete ide3",
+        "ssh -i {{user `proxmox_ssh_key`}} {{user `proxmox_ssh_user`}}@{{user `proxmox_host`}} qm set {{user `template_id`}} --delete sata0"
+      ]
+    }
   ]
 }

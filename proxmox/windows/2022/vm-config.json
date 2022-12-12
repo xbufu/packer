@@ -2,7 +2,7 @@
 	"node": "proxmox",
 	"template_name": "windows-server-2022",
 	"template_description": "Windows Server 2022",
-	"template_id": "1003",
+	"template_id": "1009",
 	"sockets": "1",
 	"cores": "2",
 	"memory": "4096",
