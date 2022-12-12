@@ -1,0 +1,64 @@
+{
+  "builders": [
+    {
+      "type": "proxmox",
+      "proxmox_url": "https://{{user `proxmox_host`}}:8006/api2/json",
+      "insecure_skip_tls_verify": "{{user `proxmox_skip_tls_verify`}}",
+      "pool": "{{user `vm_pool`}}",
+      "username": "{{ user `proxmox_username` }}",
+      "password": "{{ user `proxmox_password` }}",
+      "vm_name": "{{ user `template_name` }}",
+      "vm_id": "{{ user `template_id` }}",
+      "node": "{{user `node`}}",
+      "sockets": "{{user `sockets`}}",
+      "cores": "{{user `cores`}}",
+      "cpu_type": "kvm64",
+      "memory": "{{user `memory`}}",
+      "os": "l26",
+      "network_adapters": [
+        {
+          "model": "virtio",
+          "bridge": "{{user `network`}}",
+          "vlan_tag": "{{user `network_vlan`}}"
+        }
+      ],
+      "disks": [
+        {
+          "type": "scsi",
+          "disk_size": "{{user `disk_size`}}",
+          "storage_pool": "{{user `disk_storage_pool`}}",
+          "storage_pool_type": "{{user `disk_storage_type`}}",
+          "cache_mode": "writeback",
+          "format": "raw"
+        }
+      ],
+      "vga": {
+        "type": "{{user `vga_type`}}",
+        "memory": "{{user `vga_memory`}}"
+      },
+      "scsi_controller": "virtio-scsi-pci",
+      "cloud_init": true,
+      "cloud_init_storage_pool": "{{ user `disk_storage_pool` }}",
+      "iso_file": "local:iso/debian-11.5.0-amd64-netinst.iso",
+      "iso_storage_pool": "{{user `iso_storage_pool`}}",
+      "iso_checksum": "a764f7608704beec26cc58e7323c39cc",
+      "http_directory": "http",
+      "http_bind_address": "10.10.10.50",
+      "boot_wait": "5s",
+      "boot": "c",
+      "boot_command": [
+        "<esc><wait>auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<enter>"
+      ],
+      "communicator": "ssh",
+      "ssh_username": "root",
+      "ssh_private_key_file": "~/.ssh/lab_ed25519",
+      "ssh_timeout": "60m",
+      "qemu_agent": true,
+      "unmount_iso": true,
+      "template_name": "{{ user `template_name` }}",
+      "template_description": "{{ user `template_description` }}"
+    }
+  ],
+  "provisioners": [
+  ]
+}
