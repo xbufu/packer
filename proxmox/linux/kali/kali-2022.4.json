@@ -12,7 +12,7 @@
       "node": "{{user `node`}}",
       "sockets": "{{user `sockets`}}",
       "cores": "{{user `cores`}}",
-      "cpu_type": "kvm64",
+      "cpu_type": "host",
       "memory": "{{user `memory`}}",
       "os": "l26",
       "network_adapters": [
@@ -43,7 +43,7 @@
       "iso_storage_pool": "{{user `iso_storage_pool`}}",
       "iso_checksum": "05802c82e54fc04c6344c2c990459172",
       "http_directory": "http",
-      "http_bind_address": "10.10.10.50",
+      "http_bind_address": "192.168.0.5",
       "boot_wait": "5s",
       "boot": "c",
       "boot_command": [

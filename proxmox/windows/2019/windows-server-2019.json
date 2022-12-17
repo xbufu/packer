@@ -12,7 +12,7 @@
       "node": "{{user `node`}}",
       "sockets": "{{user `sockets`}}",
       "cores": "{{user `cores`}}",
-      "cpu_type": "kvm64",
+      "cpu_type": "host",
       "memory": "{{user `memory`}}",
       "os": "win10",
       "network_adapters": [
